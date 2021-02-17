@@ -38,9 +38,9 @@ const action = async () => {
         `Posting status '${status}' with result '${testResult}' to ${link} (sha: ${head_sha})`
     );
 
-    const errorMessage = [];
+    const errorMessages = [];
     for(const annotation of annotations){
-        errorMessage.push(`${annotation.path}:${annotation.start_line} -> ${annotation.message.replace(/\n/g, ' ')}`);
+        errorMessages.push(`${annotation.path}:${annotation.start_line} -> ${annotation.message.replace(/\n/g, ' ')}`);
     }
 
 
@@ -48,19 +48,19 @@ const action = async () => {
     core.setOutput('result', testResult);
     core.setOutput('count', count);
     core.setOutput('skipped', skipped);
-    core.setOutput('failed', annotations.length);
-    if(errorMessage.length === 0)
+    core.setOutput('failed', errorMessages.length);
+    if(errorMessages.length === 0)
     {
         core.setOutput('errorMessage', 'All test passed, not error message');
     }
     else
     {
-        core.setOutput('errorMessage', errorMessage.join(' | '));
+        core.setOutput('errorMessage', errorMessages.join(' | '));
     }    
 
     // optionally fail the action if tests fail
     if (failOnFailedTests && testResult !== 'success') {
-        core.setFailed(`Check FailOnFailedTests is enabled, there were ${errorMessage.length} failed tests`);
+        core.setFailed(`Check FailOnFailedTests is enabled, there were ${errorMessages.length} failed tests`);
     }
 };
 

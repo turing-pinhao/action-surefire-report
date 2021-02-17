@@ -48,29 +48,30 @@ The number of skipped tests.
 
 The number of failed tests.
 
-### `annotation`
+### `errorMessage`
 
 The error messages for failed tests.
 
 ## Example usage
 
 ```yml
-name: build
+name: Build and Test
+
 on:
   pull_request:
-
+    branches: [ main ]
+    
 jobs:
   build:
-    name: Build and Run Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Build and Run Tests
         run: mvn test --batch-mode --fail-at-end
-      - name: Publish Test Report
+      - name: Generate Test Report
         if: always()
-        uses: turing-pinhao/action-surefire-report@v1
+        uses: turing-pinhao/action-surefire-report@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
