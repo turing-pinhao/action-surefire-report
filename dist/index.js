@@ -42,7 +42,7 @@ const action = async () => {
     core.setOutput('result', testResult);
     core.setOutput('count', count);
     core.setOutput('skipped', skipped);
-    core.setOutput('failed', failed);
+    core.setOutput('failed', annotations.length);
     if(annotations.length === 0)
     {
         core.setOutput('annotation', 'All test passed, not error message');
@@ -54,7 +54,7 @@ const action = async () => {
 
     // optionally fail the action if tests fail
     if (failOnFailedTests && testResult !== 'success') {
-        core.setFailed(`There were ${annotations.length} failed tests`);
+        core.setFailed(`Check FailOnFailedTests is enabled, there were ${annotations.length} failed tests`);
     }
 };
 
