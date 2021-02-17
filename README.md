@@ -1,11 +1,8 @@
 # GitHub Action: Process maven surefire reports
 
-![](https://github.com/scacap/action-surefire-report/workflows/build/badge.svg)
-
-
 This action processes maven surefire or failsafe XML reports on pull requests and shows the result as a PR check with summary and annotations.
 
-![Screenshot](./screenshot.png)
+This action is a modified fork of [ScaCap/action-surefire-report](https://github.com/ScaCap/action-surefire-report)
 
 ## Inputs
 
@@ -33,6 +30,28 @@ Optional. Check will fail if there are test failures. The default is `false`.
 
 Optional. Check will fail if no tests were found. The default is `true`.
 
+## Outputs
+
+### `result`
+
+The result of the maven test, it is either `success` or `failure`.
+
+### `count`
+
+The number of tests included in the test.
+
+### `skipped`
+
+The number of skipped tests.
+
+### `failed`
+
+The number of failed tests.
+
+### `annotation`
+
+The error messages for failed tests.
+
 ## Example usage
 
 ```yml
@@ -50,26 +69,8 @@ jobs:
       - name: Build and Run Tests
         run: mvn test --batch-mode --fail-at-end
       - name: Publish Test Report
-        if: ${{ always() }}
-        uses: scacap/action-surefire-report@v1
+        if: always()
+        uses: turing-pinhao/action-surefire-report@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-```
-
-## Tips for Gradle
-
-As Gradle uses a different build directory than Maven by default, you might need to set the `report_paths` variable:
-
-```yaml
-    report_paths: '**/build/test-results/test/TEST-*.xml'
-```
-
-You also need to enable JUnit XML reports as shown below.
-
-```groovy
-test {
-  reports {
-    junitXml.enabled = true
-  }
-}
 ```

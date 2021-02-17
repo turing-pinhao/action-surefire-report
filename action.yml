@@ -1,5 +1,5 @@
 name: 'Surefire Report'
-description: 'Report Surefire test results as annotations on Github Pull Request [junit, failsafe]'
+description: 'Gather Surefire test results'
 branding:
   icon: 'check-square'
   color: 'green'
@@ -27,9 +27,16 @@ inputs:
     required: false
     default: 'true'
 outputs:
-  outcome:
+  result:
      description: 'the test outcome, either `success` or `failure`'
-
+  count:
+     description: 'The number of tests included in the test'
+  skipped:
+     description: 'The number of skipped tests'
+  failed:
+     description: 'The number of failed tests'
+  annotation:
+     description: 'The error messages for failed tests'
 runs:
   using: 'node12'
   main: 'dist/index.js'
