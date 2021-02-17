@@ -42,7 +42,7 @@ const action = async () => {
     }
     else
     {
-        core.setOutput('annotation', annotations.join('|'));
+        core.setOutput('annotation', JSON.stringify(annotations, null, 2));
     }    
 
     // optionally fail the action if tests fail
