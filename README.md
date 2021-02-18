@@ -69,9 +69,17 @@ jobs:
         uses: actions/checkout@v2
       - name: Build and Run Tests
         run: mvn test --batch-mode --fail-at-end
-      - name: Generate Test Report
+      - name: Gather Test Result
         if: always()
         uses: turing-pinhao/action-surefire-report@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          id: test-result
+      - name: Send result via Webhook
+        if: always()
+        uses: distributhor/workflow-webhook@v1
+        env:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+          data: '{ "result": "${{ steps.test-result.outputs.result }}", "count": "${{ steps.test-result.outputs.count }}", "skipped": "${{ steps.test-result.outputs.skipped }}", "failed": "${{ steps.test-result.outputs.failed }}", "errorMessage": "${{ steps.test-result.outputs.errorMessage }}" }'
 ```
