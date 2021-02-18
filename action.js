@@ -45,7 +45,7 @@ const action = async () => {
     }
     else
     {
-        core.setOutput('errorMessage', errorMessages.join('\n'));
+        core.setOutput('errorMessage', errorMessages.join(' | '));
     }    
 
     // optionally fail the action if tests fail
