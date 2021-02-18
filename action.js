@@ -5,8 +5,6 @@ const { parseTestReports } = require('./utils.js');
 const action = async () => {
     const reportPaths = core.getInput('report_paths').split(',').join('\n');
     core.info(`Going to parse result form ${reportPaths}`);
-    const githubToken = core.getInput('github_token');
-    const name = core.getInput('check_name');
     const commit = core.getInput('commit');
     const failOnFailedTests = core.getInput('fail_on_test_failures') === 'true';
     const failIfNoTests = core.getInput('fail_if_no_tests') === 'true';
@@ -35,7 +33,6 @@ const action = async () => {
     for(const annotation of annotations){
         errorMessages.push(`${annotation.path}:${annotation.start_line} -> ${annotation.message.replace(/\n/g, ' ')}`);
     }
-
 
     // outputs
     core.setOutput('result', testResult);

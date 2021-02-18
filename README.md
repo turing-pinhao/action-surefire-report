@@ -6,17 +6,9 @@ This action is a modified fork of [ScaCap/action-surefire-report](https://github
 
 ## Inputs
 
-### `github_token`
-
-**Required**. Usually in form of `github_token: ${{ secrets.GITHUB_TOKEN }}`.
-
 ### `report_paths`
 
 Optional. [Glob](https://github.com/actions/toolkit/tree/master/packages/glob) expression to surefire or failsafe report paths. The default is `**/surefire-reports/TEST-*.xml`.
-
-### `check_name`
-
-Optional. Check name to use when creating a check run. The default is `Test Report`.
 
 ### `commit`
 
@@ -38,7 +30,7 @@ The result of the maven test, it is either `success` or `failure`.
 
 ### `count`
 
-The number of tests included in the test.
+The number of tests tested.
 
 ### `skipped`
 
@@ -72,9 +64,7 @@ jobs:
       - name: Gather Test Result
         if: always()
         uses: turing-pinhao/action-surefire-report@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          id: test-result
+        id: test-result
       - name: Send result via Webhook
         if: always()
         uses: distributhor/workflow-webhook@v1
