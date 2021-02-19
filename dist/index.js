@@ -16,7 +16,8 @@ const action = async () => {
     const failOnFailedTests = core.getInput('fail_on_test_failures') === 'true';
     const failIfNoTests = core.getInput('fail_if_no_tests') === 'true';
 
-    let { count, skipped, annotations } = await parseTestReports(reportPaths);
+    //let { count, skipped, annotations } = await parseTestReports(reportPaths);
+    let { count, skipped, annotations } = await parseTestReports('./surefire-reports/TEST-TestSuite.xml');
 	
     const foundResults = count > 0 || skipped > 0;
     const title = foundResults
@@ -38,7 +39,7 @@ const action = async () => {
 
     const errorMessages = [];
     for(const annotation of annotations){
-        errorMessages.push(`${annotation.path}:${annotation.start_line} -> ${annotation.message.replace(/\n/g, ' ')}`);
+        errorMessages.push( `${annotation.title}(${annotation.path}:${annotation.start_line}) -> ${annotation.stackTrace}`);       
     }
 
     // outputs
@@ -52,7 +53,7 @@ const action = async () => {
     }
     else
     {
-        core.setOutput('errorMessage', errorMessages.join(' | '));
+        core.setOutput('errorMessage', errorMessages.join(' '));
     }    
 
     // optionally fail the action if tests fail
@@ -10582,7 +10583,7 @@ async function parseFile(file) {
 
                 const path = await resolvePath(filename);
                 const title = `${filename}.${testcase._attributes.name}`;
-                core.info(`${path}:${line} | ${message.replace(/\n/g, ' ')}`);
+                core.info(`${title}(${path}:${line}) -> ${stackTrace}`);
 
                 annotations.push({
                     path,
