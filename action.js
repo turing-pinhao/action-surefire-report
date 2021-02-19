@@ -9,8 +9,7 @@ const action = async () => {
     const failOnFailedTests = core.getInput('fail_on_test_failures') === 'true';
     const failIfNoTests = core.getInput('fail_if_no_tests') === 'true';
 
-    //let { count, skipped, annotations } = await parseTestReports(reportPaths);
-    let { count, skipped, annotations } = await parseTestReports('./surefire-reports/TEST-TestSuite.xml');
+    let { count, skipped, annotations } = await parseTestReports(reportPaths);
 	
     const foundResults = count > 0 || skipped > 0;
     const title = foundResults
