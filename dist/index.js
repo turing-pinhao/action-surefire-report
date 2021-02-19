@@ -38,7 +38,7 @@ const action = async () => {
 
     const errorMessages = [];
     for(const annotation of annotations){
-        errorMessages.push( `${annotation.title}(${annotation.path}:${annotation.start_line}) -> ${annotation.stackTrace}`);       
+        errorMessages.push( `${annotation.title}(${annotation.path}:${annotation.start_line}) -> ${annotation.raw_details}`);       
     }
 
     // outputs
