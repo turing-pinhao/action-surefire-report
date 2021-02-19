@@ -10,7 +10,7 @@ const action = async () => {
     const failIfNoTests = core.getInput('fail_if_no_tests') === 'true';
 
     let { count, skipped, annotations } = await parseTestReports(reportPaths);
-	
+    	
     const foundResults = count > 0 || skipped > 0;
     const title = foundResults
         ? `${count} tests run, ${skipped} skipped, ${annotations.length} failed.`
@@ -31,7 +31,7 @@ const action = async () => {
 
     const errorMessages = [];
     for(const annotation of annotations){
-        errorMessages.push( `${annotation.title}(${annotation.path}:${annotation.start_line}) -> ${annotation.raw_details}`);       
+        errorMessages.push( `${annotation.title}(${annotation.path}:${annotation.start_line}) -> ${annotation.raw_details.split('\n')[0]}`);       
     }
 
     // outputs

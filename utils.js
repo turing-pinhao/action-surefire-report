@@ -97,7 +97,7 @@ async function parseFile(file) {
 
                 const path = await resolvePath(filename);
                 const title = `${filename}.${testcase._attributes.name}`;
-                core.info(`${title}(${path}:${line}) -> ${stackTrace}`);
+                core.info(`${title}(${path}:${line}) -> ${stackTrace.split('\n')[0]}`);
 
                 annotations.push({
                     path,
