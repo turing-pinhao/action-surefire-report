@@ -96,9 +96,9 @@ async function parseFile(file) {
                 );
 
                 const path = await resolvePath(filename);
-                const title = `${filename}.${testcase._attributes.name}`;
-                core.info(`${title}(${path}:${line}) -> ${stackTrace.split('\n')[0]}`);
-
+                const testmethodname = `${testcase._attributes.name}`;
+                core.info(`${testmethodname}(${filename}.java:${line}): ${stackTrace.split('\n')[0]}`)
+                
                 annotations.push({
                     path,
                     start_line: line,
@@ -106,7 +106,8 @@ async function parseFile(file) {
                     start_column: 0,
                     end_column: 0,
                     annotation_level: 'failure',
-                    title,
+                    filename,
+                    testmethodname,
                     message,
                     raw_details: stackTrace
                 });

@@ -38,7 +38,7 @@ const action = async () => {
 
     const errorMessages = [];
     for(const annotation of annotations){
-        errorMessages.push( `${annotation.title}(${annotation.path}:${annotation.start_line}) -> ${annotation.raw_details.split('\n')[0]}`);       
+        errorMessages.push( `${annotation.testmethodname}(${annotation.filename}.java:${annotation.start_line}): ${annotation.raw_details.split('\n')[0]}`);
     }
 
     // outputs
@@ -48,7 +48,7 @@ const action = async () => {
     core.setOutput('failed', errorMessages.length);
     if(errorMessages.length === 0)
     {
-        core.setOutput('errorMessage', 'All test passed, not error message');
+        core.setOutput('errorMessage', 'All Test passed, no error message');
     }
     else
     {
@@ -10581,9 +10581,9 @@ async function parseFile(file) {
                 );
 
                 const path = await resolvePath(filename);
-                const title = `${filename}.${testcase._attributes.name}`;
-                core.info(`${title}(${path}:${line}) -> ${stackTrace.split('\n')[0]}`);
-
+                const testmethodname = `${testcase._attributes.name}`;
+                core.info(`${testmethodname}(${filename}.java:${line}): ${stackTrace.split('\n')[0]}`)
+                
                 annotations.push({
                     path,
                     start_line: line,
@@ -10591,7 +10591,8 @@ async function parseFile(file) {
                     start_column: 0,
                     end_column: 0,
                     annotation_level: 'failure',
-                    title,
+                    filename,
+                    testmethodname,
                     message,
                     raw_details: stackTrace
                 });

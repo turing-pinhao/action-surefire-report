@@ -31,7 +31,7 @@ const action = async () => {
 
     const errorMessages = [];
     for(const annotation of annotations){
-        errorMessages.push( `${annotation.title}(${annotation.path}:${annotation.start_line}) -> ${annotation.raw_details.split('\n')[0]}`);       
+        errorMessages.push( `${annotation.testmethodname}(${annotation.filename}.java:${annotation.start_line}): ${annotation.raw_details.split('\n')[0]}`);
     }
 
     // outputs
@@ -41,7 +41,7 @@ const action = async () => {
     core.setOutput('failed', errorMessages.length);
     if(errorMessages.length === 0)
     {
-        core.setOutput('errorMessage', 'All test passed, not error message');
+        core.setOutput('errorMessage', 'All Test passed, no error message');
     }
     else
     {
